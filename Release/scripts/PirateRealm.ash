@@ -35,7 +35,7 @@ void RestoreArchivedEquipment()
 }
 string [string] __pirate_file_state;
 
-string __pirate_version = "1.0.3";
+string __pirate_version = "1.0.4";
 
 
 Record PirateRealmSettings
