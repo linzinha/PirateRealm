@@ -201,7 +201,7 @@ void statCheck()
 			//hardcode this one because this is the one I always see
 			if (s == $stat[mysticality] && $effect[Magically Delicious].have_effect() > 0)
 				cli_execute("uneffect Magically Delicious");
-			if (my_buffedstat(s) >= 100)
+			if (my_buffedstat(s) > 100)
 				abort("Remove whichever effect makes our " + s + " over 100.");
 		}
 	}
@@ -389,6 +389,7 @@ boolean pirateRunFightingTurn(buffer pirate_realm_page_text)
 		cli_execute("equip li'l ninja costume");
 	}
 	string combat_script = "";
+	combat_script += "if hasskill Darts: Aim for the Bullseye; skill darts: aim for the bullseye; endif";
 	if ($skill[stuffed mortar shell].have_skill())
 	{
 		combat_script += "skill stuffed mortar shell;";
@@ -417,7 +418,20 @@ boolean pirateRunFightingTurn(buffer pirate_realm_page_text)
 		cli_execute("call gain.ash 500 hp 1000 maxmeatspent");
 	restore_hp(MIN(my_maxhp(), 300));
 	restore_mp(96);
-	adv1($location[PirateRealm Island], 0, combat_script);
+
+	cli_execute("interjector full");
+
+	if ((have_effect($effect[Everything Looks Red]) == 0) && (item_amount($item[Everfull Dart Holster]) > 0))
+	{
+	    item current_acc1 = equipped_item($slot[acc1]);
+	    equip($slot[acc1], $item[Everfull Dart Holster]);
+	    adv1($location[PirateRealm Island], 0, combat_script);
+	    equip($slot[acc1], current_acc1);
+	} else
+	{
+		adv1($location[PirateRealm Island], 0, combat_script);
+	}
+
 	if (get_property("lastEncounter").to_monster() != $monster[none] && !run_combat().contains_text("WINWINWIN")) //FIXME run_combat() without running, to get the text
 	{
 		print("Beaten up?");
