@@ -8,7 +8,7 @@ Installation
 ----------------
 Run this command in the graphical CLI:
 <pre>
-git checkout https://github.com/Ezandora/PirateRealm.git
+git checkout https://github.com/linzinha/PirateRealm.git
 </pre>
 
 
